@@ -1,4 +1,5 @@
-﻿using FishFarm.Models;
+﻿using AutoMapper;
+using FishFarm.Models;
 using FishFarm.Models.Dtos;
 using FishFarm.Repository.WorkersRepo;
 using Microsoft.AspNetCore.Mvc;
@@ -9,9 +10,15 @@ namespace FishFarm.Services.WorkerServices
     {
 
         private readonly IWorkerRepository _IWorkerRepository;
-        public WorkerService(IWorkerRepository workerRepository)
+        private readonly IHostEnvironment _environment;
+        private readonly IMapper _mapper;
+
+        public WorkerService(IWorkerRepository workerRepository, IHostEnvironment env, IMapper mapper)
         {
             _IWorkerRepository = workerRepository;
+            _environment = env;
+            _mapper = mapper;
+
         }
         public async Task<ActionResult<IEnumerable<Workers>>> GetWorkers()
         {
@@ -80,6 +87,64 @@ namespace FishFarm.Services.WorkerServices
         {
             await _IWorkerRepository.PutWorkersDto(idd, workersDtoEdit);
             return new ObjectResult(workersDtoEdit) { StatusCode = 200 };
+        }
+
+        //------------------------------Image Post method----------------------//
+        public async Task<ActionResult> SaveImage(WorkersImgDto workersImgDto)
+        {
+            try
+            {
+                var contentPath = this._environment.ContentRootPath;
+                //var path = Path.Combine(contentPath, "Uploads");
+                var path = Path.Combine(contentPath, "D:\\Fish_Farm_Frontend\\fish-farm-app\\public\\imgWorker");
+
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+
+                //check the allowed extentions
+                var ext = Path.GetExtension(workersImgDto.ImageFile.FileName);
+                var allowedExtentions = new string[] { ".jpg", ".png", ".jpeg" };
+                if (!allowedExtentions.Contains(ext))
+                {
+                    string msg = string.Format("Only {0} extentions are allowed", string.Join(",", allowedExtentions));
+                    //return new Tuple<int, string>(0, msg);
+                    return new OkResult();
+                }
+                string uniqueString = Guid.NewGuid().ToString();
+                // We are trying to crate a unique filename here
+                var newFileName = uniqueString + ext;
+                var puclicImgPath = "imgWorker/" + newFileName;
+                var fileWithPath = Path.Combine(path, newFileName);
+                var stream = new FileStream(fileWithPath, FileMode.Create);
+                workersImgDto.ImageFile?.CopyTo(stream);
+                stream.Close();
+                //return new Tuple<int, string>(1, fileWithPath);
+                workersImgDto.PictureUrl = puclicImgPath;
+                (int, string) t = (1, fileWithPath);
+                var workersImgAddTo = _mapper.Map<Workers>(workersImgDto);
+                var workersResult = _IWorkerRepository.Add(workersImgAddTo);
+                var status = new Status();
+                if (workersResult)
+                {
+                    status.StatusCode = 1;
+                    status.Messsage = "Added Successfully";
+                }
+                else
+                {
+                    status.StatusCode = 0;
+                    status.Messsage = "Error on adding img";
+                }
+
+
+                return new OkResult();
+            }
+            catch (Exception ex)
+            {
+                //return new Tuple<int, string>(0, "Error has Occured" + ex.Message);
+                return new OkResult();
+            }
         }
     }
 }

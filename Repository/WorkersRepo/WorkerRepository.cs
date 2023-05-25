@@ -114,6 +114,24 @@ namespace FishFarm.Repository.WorkersRepo
 
             // Save the changes to the database
             await _dbContext.SaveChangesAsync();
-        }      
+        }
+
+        public bool Add(Workers workers)
+        {
+            try
+            {
+                //var fishfarmImgAddTo = _mapper.Map<FishFarms>(fishFarmImgDto);
+
+                _dbContext.Workers.Add(workers);
+                _dbContext.SaveChanges();
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+
+                return false;
+            }
+        }
     }
 }

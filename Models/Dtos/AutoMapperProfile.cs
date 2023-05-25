@@ -13,8 +13,7 @@ namespace FishFarm.Models.Dtos
             CreateMap<BoatAddEditDto, Boats>();
             CreateMap<FishFarms, FishFarmDto>();
             CreateMap<FishFarmImgDto, FishFarms>();
-            
-
+            CreateMap<WorkersImgDto, Workers>();
         }
     }
 }

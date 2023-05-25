@@ -15,5 +15,6 @@ namespace FishFarm.Services.WorkerServices
         Task<ActionResult<Workers>> PostWorkerDto(WorkerDtoEdit workersDtoEdit);
 
         Task<IActionResult> PutWorkersDto(int idd, WorkerDtoEdit workersDtoEdit);
+        Task<ActionResult> SaveImage(WorkersImgDto workersImgDto);
     }
 }

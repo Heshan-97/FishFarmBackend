@@ -141,6 +141,41 @@ namespace FishFarm.Controllers
             }
             return response;
         }
-        
+        //------------------------------Image Post method----------------------//
+
+        [HttpPost("SaveImage")]
+        public IActionResult Add([FromForm] WorkersImgDto workersImgDto )
+        {
+            var status = new Status();
+            if (!ModelState.IsValid)
+            {
+                status.StatusCode = 0;
+                status.Messsage = "Please pass the valid data";
+                return Ok(status);
+            }
+            if (workersImgDto.ImageFile != null)
+            {
+                //fishFarmImgDto.FarmPictureUrl = fishFarmImgDto.ImageFile.FileName; //getting name of image
+                var fileResult = _workderService.SaveImage(workersImgDto);
+                /*if(fileResult.Item1 == 1)
+                {
+                    fishFarmImgDto.FarmPictureUrl = fileResult.Item2; //getting name of image
+                }
+                /*var fishfarmResult = _fishFarmRepository.Add(fishFarmImgDto);
+                if(fishfarmResult)
+                {
+                    status.StatusCode = 1;
+                    status.Messsage = "Added Successfully";
+                }
+                else
+                {
+                    status.StatusCode = 0;
+                    status.Messsage = "Error on adding img";
+                 }*/
+
+            }
+            return Ok(status);
+        }
+
     }
 }

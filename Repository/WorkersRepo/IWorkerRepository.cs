@@ -13,5 +13,7 @@ namespace FishFarm.Repository.WorkersRepo
         Task<IEnumerable<WorkersDto>> GetWorkersDto();
         Task<Workers> PostWorkerDto(WorkerDtoEdit workersDtoEdit);
         Task PutWorkersDto(int idd, WorkerDtoEdit workersDtoEdit);
+
+        bool Add(Workers workers);
     }
 }
