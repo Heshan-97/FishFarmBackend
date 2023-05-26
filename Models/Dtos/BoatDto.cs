@@ -2,6 +2,7 @@
 
 namespace FishFarm.Models.Dtos
 {
+    //***********BoatDto use for get boat list*********** 
     public class BoatDto
     {
         public int BoatId { get; set; }

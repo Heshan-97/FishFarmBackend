@@ -2,6 +2,7 @@
 
 namespace FishFarm.Models.Dtos
 {
+    //**********BoatAddEditDto use for Add new boat and edit boat details************
     public class BoatAddEditDto
     {
         public int BoatId { get; set; }

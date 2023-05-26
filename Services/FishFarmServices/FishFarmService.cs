@@ -39,7 +39,6 @@ namespace FishFarm.Services.FishFarmServices
         public async Task<ActionResult<FishFarms>> GetFarmsById(int ffid)
         {
             var farm = await _IFishFarmRepository.GetFarmsById(ffid);
-            //var farm = await _dbContext.FishFarms.FindAsync(ffid);
             if (farm == null)
             {
                 return new StatusCodeResult(404);
@@ -104,7 +103,6 @@ namespace FishFarm.Services.FishFarmServices
                 var stream = new FileStream(fileWithPath, FileMode.Create);
                 fishFarmImgDto.ImageFile?.CopyTo(stream);
                 stream.Close();
-                //return new Tuple<int, string>(1, fileWithPath);
                 fishFarmImgDto.FarmPictureUrl = puclicImgPath;
                 (int, string) t = (1, fileWithPath);
                 var fishfarmImgAddTo = _mapper.Map<FishFarms>(fishFarmImgDto);
@@ -126,7 +124,6 @@ namespace FishFarm.Services.FishFarmServices
             }
             catch (Exception ex)
             {
-                //return new Tuple<int, string>(0, "Error has Occured" + ex.Message);
                 return new OkResult();
             }
         }

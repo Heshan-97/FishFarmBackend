@@ -65,16 +65,12 @@ namespace FishFarm.Repository.FishFarmRepo
         {
             try
             {
-                //var fishfarmImgAddTo = _mapper.Map<FishFarms>(fishFarmImgDto);
-               
                 _dbContext.FishFarms.Add(fishFarms);
                 _dbContext.SaveChanges();
                 return true;
-
             }
             catch (Exception ex)
             {
-
                 return false;
             }
         }

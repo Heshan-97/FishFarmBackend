@@ -77,48 +77,7 @@ namespace FishFarm.Controllers
             return await _workderService.PutWorkersDto(idd, workersDtoEdit);
         }
         //<--------------------------------------File Upload[Image]---------------------------------------------->
-        /*[HttpPost("PostUpload")]
-        public async Task<string> PostUpload([FromForm] FileUpload fileUpload)
-        {
-            try
-            {
-                if(fileUpload.files.Length > 0 )
-                {
-                    string path = _webHostEnvironment.WebRootPath + "\\uploads\\";
-                    if(!Directory.Exists(path))
-                    {
-                        Directory.CreateDirectory(path);
-                    }
-                    using (FileStream fileStream = System.IO.File.Create(path + fileUpload.files.FileName)) 
-                    {
-                        fileUpload.files.CopyTo(fileStream);
-                        fileStream.Flush();
-                        return "Upload Done.";
-                    }
-                }
-                else 
-                {
-                    return "Failed.";
-                }
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
-                
-            }
-        }
-        [HttpGet("{fileName}")]
-        public async Task<IActionResult> GetFileUpload([FromRoute] string fileName)
-        {
-            string path = _webHostEnvironment.WebRootPath + "\\upload";
-            var filePath = path + fileName + ".png"; 
-            if(System.IO.File.Exists(filePath)) 
-            {
-                byte[] b = System.IO.File.ReadAllBytes(filePath);
-                return File(b, "image/png");
-            }
-            return null;
-        }*/
+       
         [HttpPost]
         [Route("UploadFile")]
         public Response UploadFile([FromForm] FileModel fileModel)
@@ -126,7 +85,7 @@ namespace FishFarm.Controllers
             Response response = new Response();
             try
             {
-                string path = Path.Combine(@"D:\Fish_Farm_Backend\FishFarm\Img", fileModel.FileName + ".png");
+                string path = Path.Combine(@"D:\\Fish_Farm_Frontend\\fish-farm-app\\public\\img", fileModel.FileName + ".png");
                 using (Stream stream = new FileStream(path, FileMode.Create))
                 {
                     fileModel.File.CopyTo(stream);
@@ -143,7 +102,7 @@ namespace FishFarm.Controllers
         }
         //------------------------------Image Post method----------------------//
 
-        [HttpPost("SaveImage")]
+        [HttpPost("AddWorker")]
         public IActionResult Add([FromForm] WorkersImgDto workersImgDto )
         {
             var status = new Status();
@@ -155,24 +114,7 @@ namespace FishFarm.Controllers
             }
             if (workersImgDto.ImageFile != null)
             {
-                //fishFarmImgDto.FarmPictureUrl = fishFarmImgDto.ImageFile.FileName; //getting name of image
                 var fileResult = _workderService.SaveImage(workersImgDto);
-                /*if(fileResult.Item1 == 1)
-                {
-                    fishFarmImgDto.FarmPictureUrl = fileResult.Item2; //getting name of image
-                }
-                /*var fishfarmResult = _fishFarmRepository.Add(fishFarmImgDto);
-                if(fishfarmResult)
-                {
-                    status.StatusCode = 1;
-                    status.Messsage = "Added Successfully";
-                }
-                else
-                {
-                    status.StatusCode = 0;
-                    status.Messsage = "Error on adding img";
-                 }*/
-
             }
             return Ok(status);
         }

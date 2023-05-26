@@ -2,6 +2,9 @@
 
 namespace FishFarm.Models.Dtos
 {
+    /// <summary>
+    /// ************use for GetWorkersDto *************
+    /// </summary>
     public class WorkersDto
     {
 

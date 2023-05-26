@@ -1,5 +1,6 @@
 ﻿namespace FishFarm.Models.Dtos
 {
+    //********use for edit workers******
     public class WorkerDtoEdit
     {
         public int WorkerId { get; set; }

@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FishFarm.Models.Dtos
 {
+    //************fish farm post method with img upload***********
     public class FishFarmImgDto
     {
         public string? FarmName { get; set; }

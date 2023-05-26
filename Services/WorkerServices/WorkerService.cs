@@ -53,7 +53,6 @@ namespace FishFarm.Services.WorkerServices
             var workers = await _IWorkerRepository.GetWorkerById(id);
             if (workers == null)
             {
-                //return NotFound();
                 return new StatusCodeResult(404);
             }
             await _IWorkerRepository.DeleteWorker(id);
@@ -109,7 +108,6 @@ namespace FishFarm.Services.WorkerServices
                 if (!allowedExtentions.Contains(ext))
                 {
                     string msg = string.Format("Only {0} extentions are allowed", string.Join(",", allowedExtentions));
-                    //return new Tuple<int, string>(0, msg);
                     return new OkResult();
                 }
                 string uniqueString = Guid.NewGuid().ToString();
@@ -120,7 +118,6 @@ namespace FishFarm.Services.WorkerServices
                 var stream = new FileStream(fileWithPath, FileMode.Create);
                 workersImgDto.ImageFile?.CopyTo(stream);
                 stream.Close();
-                //return new Tuple<int, string>(1, fileWithPath);
                 workersImgDto.PictureUrl = puclicImgPath;
                 (int, string) t = (1, fileWithPath);
                 var workersImgAddTo = _mapper.Map<Workers>(workersImgDto);
@@ -142,7 +139,6 @@ namespace FishFarm.Services.WorkerServices
             }
             catch (Exception ex)
             {
-                //return new Tuple<int, string>(0, "Error has Occured" + ex.Message);
                 return new OkResult();
             }
         }

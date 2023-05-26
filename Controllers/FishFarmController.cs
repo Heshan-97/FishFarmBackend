@@ -56,7 +56,7 @@ namespace FishFarm.Controllers
         }
         //------------------------------Image Post method----------------------//
 
-        [HttpPost("SaveImage")]
+        [HttpPost("AddFishFarm")]
         public IActionResult Add([FromForm]FishFarmImgDto fishFarmImgDto) 
         {
             var status = new Status();
@@ -68,24 +68,7 @@ namespace FishFarm.Controllers
             }
             if(fishFarmImgDto.ImageFile != null)
             {
-                //fishFarmImgDto.FarmPictureUrl = fishFarmImgDto.ImageFile.FileName; //getting name of image
                 var fileResult = _fishFarmService.SaveImage(fishFarmImgDto);
-                /*if(fileResult.Item1 == 1)
-                {
-                    fishFarmImgDto.FarmPictureUrl = fileResult.Item2; //getting name of image
-                }
-                /*var fishfarmResult = _fishFarmRepository.Add(fishFarmImgDto);
-                if(fishfarmResult)
-                {
-                    status.StatusCode = 1;
-                    status.Messsage = "Added Successfully";
-                }
-                else
-                {
-                    status.StatusCode = 0;
-                    status.Messsage = "Error on adding img";
-                 }*/
-
             }
             return Ok(status);
         }
